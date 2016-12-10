@@ -1,5 +1,7 @@
 import threading
 import os
+import pathconverter
+import cwdModule
 
 class ClientHandler(threading.Thread):
     def __init__(self, (client, address)):
@@ -13,7 +15,7 @@ class ClientHandler(threading.Thread):
         self.CRLF="\r\n"
         self.commands=["USER","PASS","QUIT","PWD","CWD"]
         self.currentDirectory=os.getcwd()
-        self.root= "C:\\user\\cahyasetya\\Downloads\\5114100049_5114100068"
+        self.root= "D:\\GIT\\fpprogjar\\FTPKlmpk1_20"
 
     def run(self):
         welcome_massage="220-ProgJar Server 0.0.0 beta\r\n220-written by Cahya, Kunto, Muhsin, Panji\r\n"
@@ -58,13 +60,11 @@ class ClientHandler(threading.Thread):
                 print "user give command: ", command
                 if command in self.commands:
                     if command=="PWD":
-                        currentDirectory=os.getcwd()
-                        if self.root in currentDirectory:
-                            currentDirectory.replace(self.root,"\\")
-                        self.client_socket.sendall("257 %s is current working directory"%(currentDirectory))
+                        self.currentDirectory=pathconverter.pathconvert(self.root,self.currentDirectory)
+                        self.client_socket.sendall("257 %s is current working directory"%(self.currentDirectory))
                     elif cmd=="CWD":
                         dirname=cmd.partition(" ")[2].strip()
-                        print self.currentDirectory+dirname
+                        cwdModule.cwd(self.client_socket, self.root, dirname)
                 else:
                     self.sendSyntaxError()
 
