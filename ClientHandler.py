@@ -13,6 +13,7 @@ class ClientHandler(threading.Thread):
         self.CRLF="\r\n"
         self.commands=["USER","PASS","QUIT","PWD","CWD"]
         self.currentDirectory=os.getcwd()
+        self.root= "C:\\user\\cahyasetya\\Downloads\\5114100049_5114100068"
 
     def run(self):
         welcome_massage="220-ProgJar Server 0.0.0 beta\r\n220-written by Cahya, Kunto, Muhsin, Panji\r\n"
@@ -20,6 +21,7 @@ class ClientHandler(threading.Thread):
         cmd="test"
         while cmd!="QUIT":
             cmd = self.client_socket.recv(self.BUFF);
+            print cmd
             cmd = cmd.strip(self.CRLF);
             if cmd.upper()=="QUIT":
                 print "quiting"
@@ -42,7 +44,6 @@ class ClientHandler(threading.Thread):
                     if self.password == "admin" and self.username == "admin":
                         self.client_socket.sendall("230 Logged on" + self.CRLF)
                         self.isLogedIn = True
-                        break
                     else:
                         self.client_socket.sendall("530 Login or password incorrect" + self.CRLF)
                 else:
@@ -54,10 +55,12 @@ class ClientHandler(threading.Thread):
             else:
                 print "masuk sini"
                 command=cmd.partition(" ")[0].upper()
-                print "user give command: ", cmd
-                if cmd in self.commands:
-                    if cmd=="PWD":
+                print "user give command: ", command
+                if command in self.commands:
+                    if command=="PWD":
                         currentDirectory=os.getcwd()
+                        if self.root in currentDirectory:
+                            currentDirectory.replace(self.root,"\\")
                         self.client_socket.sendall("257 %s is current working directory"%(currentDirectory))
                     elif cmd=="CWD":
                         dirname=cmd.partition(" ")[2].strip()
