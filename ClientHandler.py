@@ -15,7 +15,7 @@ class ClientHandler(threading.Thread):
         self.CRLF="\r\n"
         self.commands=["USER","PASS","QUIT","PWD","CWD"]
         self.currentDirectory=os.getcwd()
-        self.root= "D:\\GIT\\fpprogjar\\FTPKlmpk1_20"
+        self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
 
     def run(self):
         welcome_massage="220-ProgJar Server 0.0.0 beta\r\n220-written by Cahya, Kunto, Muhsin, Panji\r\n"
@@ -62,7 +62,7 @@ class ClientHandler(threading.Thread):
                     if command=="PWD":
                         self.currentDirectory=pathconverter.pathconvert(self.root,self.currentDirectory)
                         self.client_socket.sendall("257 %s is current working directory"%(self.currentDirectory))
-                    elif cmd=="CWD":
+                    elif command=="CWD":
                         dirname=cmd.partition(" ")[2].strip()
                         cwdModule.cwd(self.client_socket, self.root, dirname)
                 else:
