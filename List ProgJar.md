@@ -9,7 +9,7 @@ Ketentuannya adalah mengimplementasikan RFC 959 (dituliskan dengan subbab) sebag
 - Mengganti nama file (RNTO: 4.1.3)
 - Menghapus file (DELE: 4.1.3) (sudah)
 - Menghapus direktori (RMD: 4.1.3) (sudah)
-- Membuat direktori (MKD: 4.1.3)
+- Membuat direktori (MKD: 4.1.3) (sudah)
 - Mencetak direktori aktif (PWD: 4.1.3) (sudah)
 - Mendaftar file dan direktori (LIST: 4.1.3)
 - HELP: 4.1.3
