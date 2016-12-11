@@ -2,6 +2,7 @@ import threading
 import os
 import pathconverter
 import cwdModule
+import deletehandler
 
 class ClientHandler(threading.Thread):
     def __init__(self, (client, address)):
@@ -13,7 +14,7 @@ class ClientHandler(threading.Thread):
         self.username=""
         self.password=""
         self.CRLF="\r\n"
-        self.commands=["USER","PASS","QUIT","PWD","CWD"]
+        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE"]
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
 
@@ -60,11 +61,21 @@ class ClientHandler(threading.Thread):
                 print "user give command: ", command
                 if command in self.commands:
                     if command=="PWD":
-                        self.currentDirectory=pathconverter.pathconvert(self.root,self.currentDirectory)
-                        self.client_socket.sendall("257 %s is current working directory"%(self.currentDirectory))
+                        if(self.currentDirectory==self.root)
+                            currentDirectory="\\"
+                        else:
+                            currentDirectory=pathconverter.pathconvert(self.root,self.currentDirectory)
+                        self.client_socket.sendall("257 %s is current working directory"%(currentDirectory))
                     elif command=="CWD":
                         dirname=cmd.partition(" ")[2].strip()
                         self.currentDirectory=cwdModule.cwd(self.client_socket, self.root, self.currentDirectory, dirname)
+                    elif command=="DELE":
+                        filename=cmd.partition(" ")[2].strip()
+                        deletehandler.deletefile(filename, self.client_socket, self.currentDirectory)
+                    elif command=="RMD":
+                        dirname=cmd.partition(" ")[2].strip()
+                        deletehandler.deletefolder(dirname, self.client_socket, self.currentDirectory)
+
                 else:
                     self.sendSyntaxError()
 
