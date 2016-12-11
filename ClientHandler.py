@@ -3,6 +3,7 @@ import os
 import pathconverter
 import cwdModule
 import deletehandler
+import mkdModule
 
 class ClientHandler(threading.Thread):
     def __init__(self, (client, address)):
@@ -14,7 +15,7 @@ class ClientHandler(threading.Thread):
         self.username=""
         self.password=""
         self.CRLF="\r\n"
-        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE"]
+        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD"]
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
 
@@ -61,7 +62,7 @@ class ClientHandler(threading.Thread):
                 print "user give command: ", command
                 if command in self.commands:
                     if command=="PWD":
-                        if(self.currentDirectory==self.root)
+                        if(self.currentDirectory==self.root):
                             currentDirectory="\\"
                         else:
                             currentDirectory=pathconverter.pathconvert(self.root,self.currentDirectory)
@@ -75,6 +76,9 @@ class ClientHandler(threading.Thread):
                     elif command=="RMD":
                         dirname=cmd.partition(" ")[2].strip()
                         deletehandler.deletefolder(dirname, self.client_socket, self.currentDirectory)
+                    elif command=="MKD":
+                        dirname=cmd.partition(" ")[2].strip()
+                        mkdModule.mkd(self.client_socket, self.root, self.currentDirectory, dirname)
 
                 else:
                     self.sendSyntaxError()
