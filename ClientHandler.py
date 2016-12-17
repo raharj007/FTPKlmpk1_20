@@ -4,11 +4,8 @@ import pathconverter
 import cwdModule
 import deletehandler
 import mkdModule
-<<<<<<< HEAD
 import modifier
-=======
 import listModule
->>>>>>> af3efdb4e91f808d8a1d2929858deda7e0e9d849
 
 class ClientHandler(threading.Thread):
     def __init__(self, (client, address)):
@@ -20,11 +17,8 @@ class ClientHandler(threading.Thread):
         self.username=""
         self.password=""
         self.CRLF="\r\n"
-<<<<<<< HEAD
         self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","RNTO"]
-=======
         self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD", "LIST"]
->>>>>>> af3efdb4e91f808d8a1d2929858deda7e0e9d849
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
         self.rnfr=""
@@ -90,7 +84,6 @@ class ClientHandler(threading.Thread):
                     elif command=="MKD":
                         dirname=cmd.partition(" ")[2].strip()
                         mkdModule.mkd(self.client_socket, self.root, self.currentDirectory, dirname)
-<<<<<<< HEAD
                     elif command=="RNFR":
                         path=cmd.partition(" ")[2].strip()
                         self.rnfr=modifier.rnfr(self.client_socket, self.currentDirectory, path)
@@ -102,15 +95,12 @@ class ClientHandler(threading.Thread):
                             print self.rnto
                         else:
                             self.client_socket.sendall("503 Bad sequence of commands"+self.CRLF)
-=======
                     elif command=="LIST":
                         pathname=cmd.partition(" ")[2].strip()
                         if pathname=="":
                             listModule.listNoPath(self.client_socket, self.currentDirectory)
                         else:
                             listModule.list(self.client_socket, self.root, self.currentDirectory, pathname)
->>>>>>> af3efdb4e91f808d8a1d2929858deda7e0e9d849
-
                 else:
                     self.sendSyntaxError()
 

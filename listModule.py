@@ -22,3 +22,4 @@ def listNoPath(client_socket, currentDir):
     for directory in directoryList:
         nameDir = nameDir + directory + '\r\n'
     client_socket.sendall(nameDir)
+
