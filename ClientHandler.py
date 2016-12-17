@@ -71,7 +71,7 @@ class ClientHandler(threading.Thread):
                             currentDirectory="\\"
                         else:
                             currentDirectory=pathconverter.pathconvert(self.root,self.currentDirectory)
-                        self.client_socket.sendall("257 %s is current working directory"%(currentDirectory))
+                        self.client_socket.sendall("257 %s is current working directory\r\n"%(currentDirectory))
                     elif command=="CWD":
                         dirname=cmd.partition(" ")[2].strip()
                         self.currentDirectory=cwdModule.cwd(self.client_socket, self.root, self.currentDirectory, dirname)
