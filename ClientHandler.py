@@ -4,6 +4,7 @@ import pathconverter
 import cwdModule
 import deletehandler
 import mkdModule
+import modifier
 
 class ClientHandler(threading.Thread):
     def __init__(self, (client, address)):
@@ -15,9 +16,11 @@ class ClientHandler(threading.Thread):
         self.username=""
         self.password=""
         self.CRLF="\r\n"
-        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD"]
+        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","RNTO"]
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
+        self.rnfr=""
+        self.rnto=""
 
     def run(self):
         welcome_massage="220-ProgJar Server 0.0.0 beta\r\n220-written by Cahya, Kunto, Muhsin, Panji\r\n"
@@ -79,6 +82,17 @@ class ClientHandler(threading.Thread):
                     elif command=="MKD":
                         dirname=cmd.partition(" ")[2].strip()
                         mkdModule.mkd(self.client_socket, self.root, self.currentDirectory, dirname)
+                    elif command=="RNFR":
+                        path=cmd.partition(" ")[2].strip()
+                        self.rnfr=modifier.rnfr(self.client_socket, self.currentDirectory, path)
+                        print self.rnfr
+                    elif command=="RNTO":
+                        path = cmd.partition(" ")[2].strip()
+                        if self.rnfr!="":
+                            self.rnto=modifier.rnto(self.client_socket, self.currentDirectory, self.rnfr, path)
+                            print self.rnto
+                        else:
+                            self.client_socket.sendall("503 Bad sequence of commands"+self.CRLF)
 
                 else:
                     self.sendSyntaxError()
