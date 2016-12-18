@@ -6,6 +6,7 @@ import deletehandler
 import mkdModule
 import modifier
 import listModule
+import downloadModule
 
 class ClientHandler(threading.Thread):
     def __init__(self, (client, address)):
@@ -17,8 +18,7 @@ class ClientHandler(threading.Thread):
         self.username=""
         self.password=""
         self.CRLF="\r\n"
-        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","RNTO"]
-        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD", "LIST"]
+        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","RNTO", "LIST", "RETR"]
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
         self.rnfr=""
@@ -101,6 +101,9 @@ class ClientHandler(threading.Thread):
                             listModule.listNoPath(self.client_socket, self.currentDirectory)
                         else:
                             listModule.list(self.client_socket, self.root, self.currentDirectory, pathname)
+                    elif command=="RETR":
+                        path = cmd.partition(" ")[2].strip()
+                        downloadModule.download(self.client_socket, self.currentDirectory, path)                    
                 else:
                     self.sendSyntaxError()
 
