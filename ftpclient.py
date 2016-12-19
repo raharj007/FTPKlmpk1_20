@@ -43,7 +43,7 @@ while True:
                 fileupload_size=os.path.getsize(filename)
                 with open(filename,"rb") as fileupload:
                     dataupload = fileupload.read()
-                    socket_client.sendall(str(fileupload_size) + "\r\n\r\n" + dataupload)
+                    socket_client.sendall(cmd + " " + str(fileupload_size) + " " + "\r\n\r\n" + dataupload)
                 print str(filename) + " uploaded."
             else:
                 print "File doesn't exists."+"\r\n"
