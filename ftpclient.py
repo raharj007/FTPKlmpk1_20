@@ -1,3 +1,4 @@
+import os
 import socket
 import select
 import sys
@@ -19,7 +20,6 @@ for sock in read_ready:
 while True:
     try:
         cmd=raw_input()
-        socket_client.sendall(cmd+"\r\n")
         if cmd.partition(" ")[0].upper()=="RETR":
             filesize=0
             filereceived=0
@@ -27,19 +27,28 @@ while True:
             temp=socket_client.recv(BUFF)
             filesize, delimiter, body=temp.partition("\r\n\r\n")
             data=data+body
-            #print temp.partition("\r\n\r\n")
             filereceived=len(data)
-            #print "filereceived: " + str(filereceived)
-            #print "filesize: " + str(filesize)
-            with open(cmd.partition(" ")[2], 'wb') as frcvd:
+            filedownload=cmd.partition(" ")[2]
+            with open(filedownload, 'wb') as frcvd:
                 while int(filereceived)<int(filesize):
                     temp=socket_client.recv(BUFF)
                     frcvd.write(temp)
                     filereceived+=len(temp)
                 frcvd.close()
+            print str(filedownload) + " downloaded." + "\r\n"
+        elif cmd.partition(" ")[0].upper()=="STOR":
+            filename = cmd.partition(" ")[2]
+            if os.path.exists(filename):
+                fileupload_size=os.path.getsize(filename)
+                with open(filename,"rb") as fileupload:
+                    dataupload = fileupload.read()
+                    socket_client.sendall(str(fileupload_size) + "\r\n\r\n" + dataupload)
+                print str(filename) + " uploaded."
+            else:
+                print "File doesn't exists."+"\r\n"
         else:
+            socket_client.sendall(cmd+"\r\n")
             print socket_client.recv(1024)
-
     except socket.error, exc:
         socket_client.close()
         break
