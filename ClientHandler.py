@@ -103,6 +103,7 @@ class ClientHandler(threading.Thread):
                         else:
                             listModule.list(self.client_socket, self.root, self.currentDirectory, pathname)
                     elif command=="RETR":
+                        print 'retr'
                         path = cmd.partition(" ")[2].strip()
                         downloadModule.download(self.client_socket, self.currentDirectory, path)                    
                     elif command=="STOR":

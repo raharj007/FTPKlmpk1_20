@@ -4,6 +4,7 @@ import pathconverter
 CRLF="\r\n"
 
 def download(socket_client, currentDirectory, path):
+	print 'sampe sini'
 	joinPath = os.path.join(currentDirectory, path)
 	if os.path.exists(joinPath):
 		filesize=os.path.getsize(path)

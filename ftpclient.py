@@ -6,7 +6,7 @@ import sys
 BUFF=1024
 
 socket_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-socket_client.connect(('localhost', 5000))
+socket_client.connect(('192.168.1.3', 5000))
 
 #commands = ['USER raharjo\r\n', 'PASS 123\r\n', 'PWD\r\n', 'QUIT\r\n']
 
@@ -24,6 +24,7 @@ while True:
             filesize=0
             filereceived=0
             data=""
+            socket_client.sendall(cmd+'\r\n')
             temp=socket_client.recv(BUFF)
             filesize, delimiter, body=temp.partition("\r\n\r\n")
             data=data+body
