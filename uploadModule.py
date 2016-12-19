@@ -11,9 +11,7 @@ def upload(socket_client, currentDirectory, path):
     newPartition = temp.partition(" ")
     newPath = newPartition[0]
     size, delimiter, body=newPartition[2].partition("\r\n\r\n")
-    print data
     newSize = size.partition(" ")[0]
-    print newSize
     with open(newPath, 'wb') as fileuploaded:
         data = data + body
         filereceived = len(data)

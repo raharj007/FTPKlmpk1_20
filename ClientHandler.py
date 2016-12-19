@@ -21,6 +21,9 @@ class ClientHandler(threading.Thread):
         self.password=""
         self.CRLF="\r\n"
         self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","STOR", "LIST", "RETR", "HELP"]
+        self.nImplemented=["ABOR","ADAT","ALLO","APPE","AUTH","CDUP","CLNT","EPRT","EPSV","FEAT","HASH","MDTM","MFMT",
+                           "MLSD","MODE","NLST","NOOP","NOP","OPTS","PASV","PBSZ","PORT","PROT","REST","SITE","SIZE",
+                           "STRU","SYST","TYPE","XCUP","XCWD","XMKD","XPWD"]
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
         self.rnfr=""
@@ -105,17 +108,15 @@ class ClientHandler(threading.Thread):
                         else:
                             listModule.list(self.client_socket, self.root, self.currentDirectory, pathname)
                     elif command=="RETR":
-                        print 'retr'
                         path = cmd.partition(" ")[2].strip()
                         downloadModule.download(self.client_socket, self.currentDirectory, path)
                     elif command=="STOR":
-                        print 'store'
                         path = cmd.partition(" ")[2].strip()
-                        print path + '2'
                         uploadModule.upload(self.client_socket, self.currentDirectory, path)
                     elif command=='HELP':
-                        path = cmd.partition(" ")[2].strip()
-                        helpModule.upload(self.client_socket, self.currentDirectory, path)
+                        helpModule.help(self.client_socket)
+                if command in self.nImplemented:
+                    self.sendSyntaxNotImplemented()
                 else:
                     self.sendSyntaxError()
 
@@ -136,6 +137,9 @@ class ClientHandler(threading.Thread):
                     self.client_socket.sendall("530 Please log in with USER and PASS first" + self.CRLF)
                 else:
                     self.sendSyntaxError()
+
+    def sendSyntaxNotImplemented(self):
+        self.client_socket.sendall("202 Command not implemented, superfluous at this site." + self.CRLF)
 
     def sendSyntaxError(self):
         self.client_socket.sendall("500 Syntax error, command unrecognized" + self.CRLF)
