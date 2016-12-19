@@ -47,7 +47,7 @@ while True:
                     socket_client.sendall(cmd + " " + str(fileupload_size) + " " + "\r\n\r\n" + dataupload)
                 print str(filename) + " uploaded."
             else:
-                print "File doesn't exists."+"\r\n"
+                print "550 File not found" + "\r\n"
         else:
             socket_client.sendall(cmd+"\r\n")
             print socket_client.recv(1024)

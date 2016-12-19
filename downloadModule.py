@@ -13,4 +13,4 @@ def download(socket_client, currentDirectory, path):
 			data = file.read()
 			socket_client.sendall(data)
 	else:
-		socket_client.sendall("\r\n")
+		socket_client.sendall("550 File not found" + CRLF)
