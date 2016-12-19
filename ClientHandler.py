@@ -23,14 +23,14 @@ class ClientHandler(threading.Thread):
         self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","STOR", "LIST", "RETR", "HELP"]
         self.nImplemented=["ABOR","ADAT","ALLO","APPE","AUTH","CDUP","CLNT","EPRT","EPSV","FEAT","HASH","MDTM","MFMT",
                            "MLSD","MODE","NLST","NOOP","NOP","OPTS","PASV","PBSZ","PORT","PROT","REST","SITE","SIZE",
-                           "STRU","SYST","TYPE","XCUP","XCWD","XMKD","XPWD"]
+                           "STRU","SYST","TYPE","XCUP","XCWD","XMKD","XPWD", "XRMD"]
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
         self.rnfr=""
         self.rnto=""
 
     def run(self):
-        welcome_massage="220-ProgJar Server 0.0.0 beta\r\n220-written by Cahya, Kunto, Muhsin, Panji\r\n"
+        welcome_massage="220-ProgJar Server 0.0.0 beta\r\n220-written by Cahya, Kunto, Muhsin, Panji"
         self.client_socket.sendall(welcome_massage)
         cmd="test"
         while cmd!="QUIT":

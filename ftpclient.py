@@ -3,6 +3,7 @@ import socket
 import select
 import sys
 
+CRLF="\r\n"
 BUFF=1024
 
 socket_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -50,7 +51,7 @@ while True:
                 print "550 File not found" + "\r\n"
         else:
             socket_client.sendall(cmd+"\r\n")
-            print socket_client.recv(1024)
+            print socket_client.recv(1024).rstrip(CRLF)
     except socket.error, exc:
         socket_client.close()
         break
