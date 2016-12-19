@@ -24,7 +24,7 @@ while True:
             filesize=0
             filereceived=0
             data=""
-            socket_client.sendall(cmd+'/r/n')
+            socket_client.sendall(cmd+'\r\n')
             temp=socket_client.recv(BUFF)
             filesize, delimiter, body=temp.partition("\r\n\r\n")
             data=data+body
