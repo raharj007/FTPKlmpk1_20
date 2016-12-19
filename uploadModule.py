@@ -1,12 +1,18 @@
 import os
 import pathconverter
 
+CRLF="\r\n"
+BUFF=1024
+
 def upload(socket_client, currentDirectory, path):
-	joinPath = os.path.join(currentDirectory, path)
-	if os.path.exists(joinPath):
-		filesize=os.path.getsize(path)
-		socket_client.sendall(str(filesize)+"\r\n"+"\r\n")
-		with open(path,"r") as file:
-			socket_client.sendall(file.read())
-	else:
-		socket_client.sendall("\r\n")
+	filesize=0
+	filereceived=0
+	data=""
+	temp=socket_client.recv(BUFF)
+	filesize, delimiter, body=temp.partition("\r\n\r\n")
+	with open(path, 'wb') as fileuploaded:
+		while int(filereceived)<int(filesize):
+			temp=socket_client.recv(BUFF)
+			fileuploaded.write(temp)
+			filereceived+=len(temp)
+		fileuploaded.close()
