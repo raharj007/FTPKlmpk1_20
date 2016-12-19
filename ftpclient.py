@@ -27,10 +27,11 @@ while True:
             socket_client.sendall(cmd+'\r\n')
             temp=socket_client.recv(BUFF)
             filesize, delimiter, body=temp.partition("\r\n\r\n")
-            data=data+body
-            filereceived=len(data)
             filedownload=cmd.partition(" ")[2]
             with open(filedownload, 'wb') as frcvd:
+                data=data+body
+                filereceived=len(data)
+                frcvd.write(data)
                 while int(filereceived)<int(filesize):
                     temp=socket_client.recv(BUFF)
                     frcvd.write(temp)

@@ -31,7 +31,7 @@ class ClientHandler(threading.Thread):
         cmd="test"
         while cmd!="QUIT":
             cmd = self.client_socket.recv(self.BUFF);
-            print cmd
+            #print cmd
             cmd = cmd.strip(self.CRLF);
             if cmd.upper()=="QUIT":
                 print "quiting"
@@ -65,6 +65,7 @@ class ClientHandler(threading.Thread):
             else:
                 print "masuk sini"
                 command=cmd.partition(" ")[0].upper()
+                print command + ' 1'
                 print "user give command: ", command
                 if command in self.commands:
                     if command=="PWD":
@@ -105,9 +106,11 @@ class ClientHandler(threading.Thread):
                     elif command=="RETR":
                         print 'retr'
                         path = cmd.partition(" ")[2].strip()
-                        downloadModule.download(self.client_socket, self.currentDirectory, path)                    
+                        downloadModule.download(self.client_socket, self.currentDirectory, path)
                     elif command=="STOR":
+                        print 'store'
                         path = cmd.partition(" ")[2].strip()
+                        print path + '2'
                         uploadModule.upload(self.client_socket, self.currentDirectory, path)
                 else:
                     self.sendSyntaxError()

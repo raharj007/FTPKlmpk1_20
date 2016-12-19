@@ -5,14 +5,21 @@ CRLF="\r\n"
 BUFF=1024
 
 def upload(socket_client, currentDirectory, path):
-	filesize=0
-	filereceived=0
-	data=""
-	temp=socket_client.recv(BUFF)
-	filesize, delimiter, body=temp.partition("\r\n\r\n")
-	with open(path, 'wb') as fileuploaded:
-		while int(filereceived)<int(filesize):
-			temp=socket_client.recv(BUFF)
-			fileuploaded.write(temp)
-			filereceived+=len(temp)
-		fileuploaded.close()
+    print 'masuk uplot'
+    data=""
+    temp = path
+    newPartition = temp.partition(" ")
+    newPath = newPartition[0]
+    size, delimiter, body=newPartition[2].partition("\r\n\r\n")
+    print data
+    newSize = size.partition(" ")[0]
+    print newSize
+    with open(newPath, 'wb') as fileuploaded:
+        data = data + body
+        filereceived = len(data)
+        fileuploaded.write(data)
+        while int(filereceived)<int(newSize):
+            temp=socket_client.recv(BUFF)
+            fileuploaded.write(temp)
+            filereceived+=len(temp)
+        fileuploaded.close()
