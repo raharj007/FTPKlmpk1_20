@@ -115,8 +115,8 @@ class ClientHandler(threading.Thread):
                         uploadModule.upload(self.client_socket, self.currentDirectory, path)
                     elif command=='HELP':
                         helpModule.help(self.client_socket)
-                if command in self.nImplemented:
-                    self.sendSyntaxNotImplemented()
+               # if command in self.nImplemented:
+               #     self.sendSyntaxNotImplemented()
                 else:
                     self.sendSyntaxError()
 
