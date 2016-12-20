@@ -6,13 +6,9 @@ import deletehandler
 import mkdModule
 import modifier
 import listModule
-<<<<<<< HEAD
-
-=======
 import downloadModule
 import uploadModule
 import helpModule
->>>>>>> ee923f95869f03848fa22239cffb08bd7c1619c7
 
 class ClientHandler(threading.Thread):
     def __init__(self, (client, address)):
@@ -24,15 +20,10 @@ class ClientHandler(threading.Thread):
         self.username=""
         self.password=""
         self.CRLF="\r\n"
-<<<<<<< HEAD
-        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","RNTO"]
-        self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD", "LIST"]
-=======
         self.commands=["USER","PASS","QUIT","PWD","CWD","RMD","DELE", "MKD","RNFR","STOR", "LIST", "RETR", "HELP"]
         self.nImplemented=["ABOR","ADAT","ALLO","APPE","AUTH","CDUP","CLNT","EPRT","EPSV","FEAT","HASH","MDTM","MFMT",
                            "MLSD","MODE","NLST","NOOP","NOP","OPTS","PASV","PBSZ","PORT","PROT","REST","SITE","SIZE",
                            "STRU","SYST","TYPE","XCUP","XCWD","XMKD","XPWD", "XRMD"]
->>>>>>> ee923f95869f03848fa22239cffb08bd7c1619c7
         self.currentDirectory=os.getcwd()
         self.root= "E:\\KUNS\\KULIAH\\ProgJar\\FTPKlmpk1_20"
         self.rnfr=""
@@ -116,9 +107,6 @@ class ClientHandler(threading.Thread):
                             listModule.listNoPath(self.client_socket, self.currentDirectory)
                         else:
                             listModule.list(self.client_socket, self.root, self.currentDirectory, pathname)
-<<<<<<< HEAD
-
-=======
                     elif command=="RETR":
                         path = cmd.partition(" ")[2].strip()
                         downloadModule.download(self.client_socket, self.currentDirectory, path)
@@ -129,7 +117,6 @@ class ClientHandler(threading.Thread):
                         helpModule.help(self.client_socket)
                 elif command in self.nImplemented:
                     self.sendSyntaxNotImplemented()
->>>>>>> ee923f95869f03848fa22239cffb08bd7c1619c7
                 else:
                     self.sendSyntaxError()
 

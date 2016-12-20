@@ -7,7 +7,7 @@ CRLF="\r\n"
 BUFF=1024
 
 socket_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-socket_client.connect(('127.0.0.1', 5000))
+socket_client.connect(('10.181.1.207', 5000))
 
 #commands = ['USER raharjo\r\n', 'PASS 123\r\n', 'PWD\r\n', 'QUIT\r\n']
 
